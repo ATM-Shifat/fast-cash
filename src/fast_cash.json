@@ -1,0 +1,64 @@
+{
+  "users": [
+    {
+      "id": "",
+      "password": "",
+      "accountNo": "",
+      "balance": "",
+      "name": "",
+      "contactEmail": "",
+      "contactPhone": "",
+      "lastTransaction": "",
+      "transactions": [
+        {
+          "id": "",
+          "to": "",
+          "amount": "",
+          "time": ""
+        }
+      ]
+    },
+    {
+      "id": "",
+      "password": "",
+      "accountNo": "",
+      "balance": "",
+      "name": "",
+      "contactEmail": "",
+      "contactPhone": "",
+      "lastTransaction": "",
+      "transactions": [
+        {
+          "id": "",
+          "to": "",
+          "amount": "",
+          "time": ""
+        }
+      ]
+    },
+    {
+      "id": "b00d",
+      "name": "cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e",
+      "email": "cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e",
+      "phone": "cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e",
+      "password": "16a332e891e86030aa9d08ab032fe026c4d4857b64902c386f3ede705373ecf9206f58d712a91a07a63dcbd14f133ab48571bfeb88927995224b299916af8fa5"
+    },
+    {
+      "id": "c6cd",
+      "name": "cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e",
+      "email": "cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e",
+      "phone": "cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e",
+      "password": "16a332e891e86030aa9d08ab032fe026c4d4857b64902c386f3ede705373ecf9206f58d712a91a07a63dcbd14f133ab48571bfeb88927995224b299916af8fa5"
+    }
+  ],
+  "activeUsers": [
+    {
+      "userId": "",
+      "logTime": ""
+    }
+  ],
+  "admin": {
+    "userId": "",
+    "password": ""
+  }
+}
