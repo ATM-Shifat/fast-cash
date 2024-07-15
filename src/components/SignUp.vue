@@ -12,6 +12,14 @@ const toast = useToast();
 const route = useRoute();
 const router = useRouter();
 
+const transaction= {
+    id: "",
+    from: "",
+    to: "",
+    amount: "",
+    time:"",              
+}
+
 defineProps({
     title:{
         type: String,
@@ -27,57 +35,84 @@ const form = reactive({
     name: "",
     email:"",
     phone:"",
-    passsword:"",
-    passswordConfirm:"",
+    password:"",
+    passwordConfirm:"",
 })
 
-const handleSumbit = async () => {
-    
-    if(form.passswordConfirm === form.passsword){
+const checkPass = () => {
+    const pass = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,}$/;
+    if(pass.test(form.password)){
+      return true;
+    }
 
-        const checkMail = sha512(String(form.email));
+    toast.error("Password should  have  at least 6 characters, and one upper case, one lower case, and one digit ");
+}
+
+const createAccountNo = (email) => {
+  let accountNo =  "";
+
+  for(let i = 0; i < email.length; i += 1){
+    accountNo += email.charCodeAt(i);
+  }
+
+  return accountNo;
+}
+
+const handleSubmit = async () => {
+
+    if(form.passwordConfirm === form.password){
         try{
             const response = await axios.get("/api/users/")
+
             const data = response.data;
+            const checkMail = form.email;
 
             const newEmail = () => {
                 for(let i = 0; i < data.length; i++){
-                    if(data[i].contactEmail === checkMail)
-                        return false;
-
+                    if(data[i].contactEmail === checkMail){
+                      return false;
+                    }
                 }
-
                 return true;
             }
 
-            if(newEmail){
+            if(newEmail()){
 
                 const userInfo = {
-                    name: sha512(String(form.name)),
-                    email: checkMail,
-                    phone: sha512(String(form.phone)),
-                    password: sha512(String(form.password)),
+                    id: data.length,
+                    accountNo: createAccountNo(form.email),
+                    balance: Number(0),
+                    name: form.name,
+                    password: sha512(form.password),
+                    contactEmail: checkMail,
+                    contactPhone: form.phone,
+                    lastTransaction: "",
+                    transactions: [],
                 }
-
+                
 
                 await axios.post("/api/users/", userInfo);
                 toast.success("Account Created successfully!");
+                router.push("/accounts/signin");
                 
+            }else{
+              toast.error("Email already exists!");
             }
-
-
         }catch(e){
             console.error("Failed to create account!",e);
             toast.error("Failed to create account!");
         }
 
+    }else{
+        toast.error("Passwords do not match!");
     }
 }
+
 
 </script>
 
 <template>
-  <section class="bg-rose-50 mt-5 mx-5 border rounded-md place-content-center">
+  <section class="bg-rose-50 mt-5 mx-5 border rounded-md flex justify-center">
     <BackButton path="/"/>
     <div class="container m-10 w-6/12 py-20  ">
       
@@ -87,7 +122,7 @@ const handleSumbit = async () => {
           Sign Up
         </h1>
 
-        <form @submit.prevent="handleSumbit">
+        <form @submit.prevent="handleSubmit">
 
             <div class="mb-4">
               <label class="block text-gray-700 font-bold mb-2">
@@ -95,7 +130,7 @@ const handleSumbit = async () => {
               </label>
               
               <input 
-                v-bind="form.name" 
+                v-model="form.name" 
                 type="text"
                 id="name"
                 name="name"
@@ -110,7 +145,7 @@ const handleSumbit = async () => {
               </label>
               
               <input  
-                v-bind="form.phone"
+                v-model="form.phone"
                 type="text"
                 id="phone"
                 name="phone"
@@ -126,7 +161,7 @@ const handleSumbit = async () => {
               </label>
               
               <input  
-                v-bind="form.email"
+                v-model="form.email"
                 type="email"
                 id="email"
                 name="email"
@@ -140,16 +175,32 @@ const handleSumbit = async () => {
               <label class="block text-gray-700 font-bold mb-2">
                 Password
               </label>
-              
+
               <input  
-                v-bind="form.passsword"
+                v-model="form.password"
                 type="password"
                 id="password"
                 name="passsword"
+                title="Password should  have  at least 6 characters, and one upper case, one lower case, and one digit"
                 class="border rounded w-full py-2 px-3 mb-2"
-                placeholder="at least 6 characters"
+                placeholder="at least 6 characters, and one upper case, one lower case, and one digit"
                 required
               />
+              
+              <!--
+               <input  
+                v-model="form.password"
+                type="password"
+                id="password"
+                name="passsword"
+                pattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,}$" 
+                title="Password should  have  at least 6 characters, and one upper case, one lower case, and one digit"
+                class="border rounded w-full py-2 px-3 mb-2"
+                placeholder="at least 6 characters, and one upper case, one lower case, and one digit"
+                required
+              /> 
+              -->
+
             </div>
 
             <div class="mb-4">
@@ -158,7 +209,7 @@ const handleSumbit = async () => {
               </label>
               
               <input 
-                v-bind="form.passswordConfirm" 
+                v-model="form.passwordConfirm" 
                 type="password"
                 id="passwordConfirm"
                 name="passwordConfirm"
@@ -170,15 +221,26 @@ const handleSumbit = async () => {
 
             <div>
               <button 
-                class="bg-rose-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline"
+                class="bg-rose-600 hover:bg-rose-700 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline"
                 type="submit"
               >
-                Save
+                Sign Up
               </button>
             </div>
 
         </form>
+
+        <div class="text-gray-400 text-sm text-center font-thin mt-10">
+          Already have an account? 
+          <RouterLink to="/accounts/signin" class="text-rose-500 hover:text-rose-700 hover:font-semibold">
+            Sign In
+          </RouterLink>
+        </div>
+
       </div>
     </div>
   </section>
 </template>
+
+<!-- fixa@mailinator.com -->
+ <!-- password  -->

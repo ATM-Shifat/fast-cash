@@ -3,6 +3,7 @@ import {createRouter, createWebHistory} from  'vue-router';
 
 import HomeView from '@/views/HomeView.vue';
 import SignUpView from '@/views/SignUpView.vue';
+import SignInView from '@/views/SignInView.vue';
 import NotFoundView from '@/views/NotFoundView.vue';
 
 const router = createRouter({
@@ -18,11 +19,11 @@ const router = createRouter({
             name: 'Signup',
             component: SignUpView,
         },
-        // {
-        //     path:'/accounts/signin',
-        //     name: 'Signin',
-        //     component: SignInView,
-        // },
+        {
+            path:'/accounts/signin',
+            name: 'Signin',
+            component: SignInView,
+        },
         {
             path: '/:catchAll(.*)',
             name: 'not-found',
