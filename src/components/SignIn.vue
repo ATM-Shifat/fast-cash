@@ -63,7 +63,7 @@ const handleSubmit = async () => {
         }
 
         if(validInput()){
-            router.push(`/accounts/${user.id}`);
+            router.push(`/accounts/${user.id}/dashboard`);
             toast.success("Signed in successfully");
         }else{
             toast.error("Invalid email or password");

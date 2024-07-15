@@ -4,6 +4,7 @@ import {createRouter, createWebHistory} from  'vue-router';
 import HomeView from '@/views/HomeView.vue';
 import SignUpView from '@/views/SignUpView.vue';
 import SignInView from '@/views/SignInView.vue';
+import DashBoardView from '@/views/DashBoardView.vue';
 import NotFoundView from '@/views/NotFoundView.vue';
 
 const router = createRouter({
@@ -11,18 +12,24 @@ const router = createRouter({
     routes: [
         {
             path: '/',
-            name: 'Home',
+            name: 'home',
             component:HomeView,
         },
         {
             path:'/accounts/signup',
-            name: 'Signup',
+            name: 'sign-up',
             component: SignUpView,
         },
         {
             path:'/accounts/signin',
-            name: 'Signin',
+            name: 'sign-in',
             component: SignInView,
+        },
+        {
+            path: '/accounts/:id/dashboard',
+            name: 'dash-board',
+            component: DashBoardView,
+
         },
         {
             path: '/:catchAll(.*)',

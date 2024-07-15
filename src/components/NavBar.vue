@@ -1,25 +1,39 @@
 <script setup>
 
-import {defineProps} from 'vue'
+import {defineProps, reactive, onMounted} from 'vue'
 import {RouterLink, useRoute} from 'vue-router'
 import {sha512} from 'js-sha512'
 
+const route = useRoute();
+
+const navBarOptions = reactive({
+  showAccountOptions: false,
+  showSignOptions: true,
+});
+
 const isActive = (routePath) => {
-    const route = useRoute();
-    
     return route.path === routePath;
 } 
+
 defineProps({
-    show:{
-        type: Boolean,
-        default: true,
-    },
-    active:{
-        type: Boolean,
-        default: false
+    user: {
+      id: String,
     }
     
 })
+
+
+onMounted(() => {
+  // console.log(route.path.includes("sign"))
+  // console.log(route.path.includes("accounts"))
+
+  if(!route.path.includes("sign")){
+    navBarOptions.showAccountOptions = true;
+  }
+  if(route.path.includes("accounts")){
+    navBarOptions.showSignOptions = false;
+  }
+});
 
 </script>
 
@@ -48,14 +62,9 @@ defineProps({
           </RouterLink>  
           </div>    
 
-          
-          <div  v-if="show" class="md:ml-auto ">
-            <div v-if="active">
-              <RouterLink to="/accounts/profile" :class="[isActive('/profile') ? 'bg-rose-800 font-medium' : 'hover:bg-rose-800', 'text-white', 'rounded-md', 'px-3', 'py-2', 'mx-2']">
-                Profile
-              </RouterLink>
-            </div>
-            <div v-else>
+          <div  v-if="navBarOptions.showAccountOptions" class="md:ml-auto ">
+            
+            <div v-if="navBarOptions.showSignOptions">
               <RouterLink to="/accounts/signin" :class="[isActive('/signin') ? 'bg-rose-800 font-medium' : 'hover:bg-rose-800', 'text-white', 'rounded-md', 'px-3', 'py-2', 'mx-2']">
                 Sign in
               </RouterLink>
@@ -64,6 +73,16 @@ defineProps({
                 Sign up
               </RouterLink>
             </div>
+            
+            <div v-else>
+              <RouterLink  :to="`/accounts/0/profile`" :class="[isActive('/profile') ? 'bg-rose-800 font-medium' : 'hover:bg-rose-800', 'text-white', 'rounded-md', 'px-3', 'py-2', 'mx-2']">
+                Profile
+              </RouterLink>
+              <RouterLink to="/" :class="['hover:bg-rose-800', 'text-white', 'rounded-md', 'px-3', 'py-2', 'mx-2']">
+                Sign out
+              </RouterLink>
+            </div>
+
           </div>
 
         </div>
